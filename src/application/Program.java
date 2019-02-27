@@ -13,7 +13,7 @@ public class Program {
 			Connect pgsql = new Connect();
 			pgsql.setServer("192.168.25.10");
 			pgsql.setUser("dev");
-			pgsql.setPass("int30int");
+			pgsql.setPass("senha");
 			pgsql.setPort("5432");
 			pgsql.setDatabase("desenv");
 
