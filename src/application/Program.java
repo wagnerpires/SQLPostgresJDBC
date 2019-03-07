@@ -1,44 +1,38 @@
 package application;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import exceptions.DomainException;
 import sgbd.Connect;
 
 public class Program {
 	public static void main(String[] args) {
 		try {
-			// Connect pgsql = new Connect("192.168.25.10", "dev", "int30int", "5432", "desenv");
+
+			List<String> list = new ArrayList<>();
 			
+			// Connect pgsql = new Connect("192.168.25.10", "dev", "int30int", "5432", "desenv");
 			Connect pgsql = new Connect();
 			pgsql.setServer("192.168.25.10");
 			pgsql.setUser("dev");
-			pgsql.setPass("senha");
+			pgsql.setPass("int30int");
 			pgsql.setPort("5432");
 			pgsql.setDatabase("desenv");
+			pgsql.conexaoDB();
 
-			if (pgsql.conexaoDB() != null) {
-				System.out.println(pgsql);
-				System.out.println();
+			System.out.println(pgsql);
+			System.out.println();
 
-				pgsql.setSql("SELECT id, nome from desenv.tb_teste");
-				ResultSet rs = pgsql.execSQL();
+			pgsql.setSql("SELECT id, nome from desenv.tb_teste");
 
-				if (rs != null) {
-					String nome;
-					int cod;
+			list = pgsql.execSQL();
 
-					while (rs.next()) {
-						cod  = rs.getInt("id");
-						nome = rs.getString("nome");
-						System.out.printf("ID: %s - NOME: %s%n", cod, nome);
-					}
-					pgsql.CloseRs();
-					pgsql.CloseConn();
-				}
+			for (String lst : list) {
+				System.out.printf(lst);
 			}
-		} catch (SQLException ex) {
-			System.out.println("Problemas na execução da consulta: SQLException: " + ex.getMessage());
+		} catch (DomainException ex) {
+			System.out.println(ex.getMessage());
 		}
 	}
 }
